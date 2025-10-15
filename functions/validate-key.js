@@ -1,9 +1,5 @@
 // functions/validate-key.js
-const fs = require('fs').promises;
-const path = require('path');
-
 exports.handler = async (event, context) => {
-  // CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -11,16 +7,10 @@ exports.handler = async (event, context) => {
     'Content-Type': 'application/json',
   };
 
-  // Обработка preflight OPTIONS запроса
   if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 204,
-      headers,
-      body: '',
-    };
+    return { statusCode: 204, headers, body: '' };
   }
 
-  // Только POST разрешён
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -49,34 +39,22 @@ exports.handler = async (event, context) => {
     };
   }
 
-  try {
-    // 🔁 Путь изменён: файл теперь в той же папке, что и функция
-    const keysPath = path.join(__dirname, 'allowed_keys_hallowen.txt');
-    const data = await fs.readFile(keysPath, 'utf8');
-    const allowedKeys = data
-      .split('\n')
-      .map(k => k.trim())
-      .filter(k => k.length > 0);
+  // 🔑 ВСТАВЬТЕ СВОИ КЛЮЧИ СЮДА (просто список)
+  const ALLOWED_KEYS = new Set([
+    'test123',
+    'abc456',
+    'halloween2025'
+    // добавьте свои ключи сюда — по одному в кавычках, через запятую
+  ]);
 
-    if (allowedKeys.includes(inputKey)) {
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({ valid: true, message: 'Access granted' }),
-      };
-    } else {
-      return {
-        statusCode: 403,
-        headers,
-        body: JSON.stringify({ valid: false, message: 'Invalid key' }),
-      };
-    }
-  } catch (err) {
-    console.error('Error reading keys file:', err);
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ valid: false, message: 'Keys file not found or unreadable' }),
-    };
-  }
+  const isValid = ALLOWED_KEYS.has(inputKey);
+
+  return {
+    statusCode: isValid ? 200 : 403,
+    headers,
+    body: JSON.stringify({
+      valid: isValid,
+      message: isValid ? 'Access granted' : 'Invalid key'
+    }),
+  };
 };
