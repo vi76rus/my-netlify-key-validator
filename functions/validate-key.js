@@ -1,7 +1,4 @@
 // functions/validate-key.js
-const fs = require('fs').promises;
-const path = require('path');
-
 exports.handler = async (event, context) => {
   // CORS headers
   const headers = {
@@ -11,16 +8,11 @@ exports.handler = async (event, context) => {
     'Content-Type': 'application/json',
   };
 
-  // Обработка preflight OPTIONS запроса
+  // Обработка preflight
   if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 204,
-      headers,
-      body: '',
-    };
+    return { statusCode: 204, headers, body: '' };
   }
 
-  // Только POST разрешён
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -49,34 +41,25 @@ exports.handler = async (event, context) => {
     };
   }
 
-  try {
-    // Путь к файлу с ключами (в корне проекта)
-    const keysPath = path.join(__dirname, '..', 'allowed_keys_hallowen.txt');
-    const data = await fs.readFile(keysPath, 'utf8');
-    const allowedKeys = data
-      .split('\n')
-      .map(k => k.trim())
-      .filter(k => k.length > 0);
+  // 🔑 ВСТАВЬТЕ СВОИ КЛЮЧИ СЮДА
+  const ALLOWED_KEYS = new Set([
+    'test123',
+    'abc123',
+    'halloween2025',
+    // добавьте остальные ключи по одному
+  ]);
 
-    if (allowedKeys.includes(inputKey)) {
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({ valid: true, message: 'Access granted' }),
-      };
-    } else {
-      return {
-        statusCode: 403,
-        headers,
-        body: JSON.stringify({ valid: false, message: 'Invalid key' }),
-      };
-    }
-  } catch (err) {
-    console.error('Error reading keys file:', err);
+  if (ALLOWED_KEYS.has(inputKey)) {
     return {
-      statusCode: 500,
+      statusCode: 200,
       headers,
-      body: JSON.stringify({ valid: false, message: 'Keys file not found or unreadable' }),
+      body: JSON.stringify({ valid: true, message: 'Access granted' }),
+    };
+  } else {
+    return {
+      statusCode: 403,
+      headers,
+      body: JSON.stringify({ valid: false, message: 'Invalid key' }),
     };
   }
 };
