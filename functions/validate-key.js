@@ -42,8 +42,20 @@ exports.handler = async (event, context) => {
   // 🔑 ВСТАВЬТЕ СВОИ КЛЮЧИ СЮДА (просто список)
   const ALLOWED_KEYS = new Set([
     'test123',
-    'abc456',
-    'halloween2025'
+'SergeyPast123',
+'NyasHshen123',
+'Wiolettosandra123',
+'AlexisMotorsv123',
+'Wze2m4uECMMkY8xuKdqIqO0LsPRQUG',
+'7MNMNyXrH5T5nXZWydkCaigmxEyzMC',
+'hE8CpdZP2fGgqJkfMKPcaxvVayOtXo',
+'q8pcdbSVmJG8toU3nX1vTmS9tUF65X',
+'vO0jvEekOxtzJRCFThuX9Kg6Pa1qTQ',
+'3NtnK3ttbJw7Aavb060gV4DDF1pvGX',
+'XwIR18Ta6qP9FvBfbQ4KEYR1ZvyrNi',
+'eEjy6qjlclEWmMVXRxwLulkCRw99PD',
+'VZO46MqBu5klnxCIli0wzxRGeAKdvy',
+'MHYtdrSAII0pQpZkyYiXmUkT1vDqpx',
     // добавьте свои ключи сюда — по одному в кавычках, через запятую
   ]);
 
