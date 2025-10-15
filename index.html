@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Key Validator</title>
+</head>
+<body>
+  <h2>Enter your access key</h2>
+  <input type="text" id="keyInput" placeholder="Key">
+  <button onclick="checkKey()">Validate</button>
+  <p id="result"></p>
+
+  <script>
+    async function checkKey() {
+      const key = document.getElementById('keyInput').value;
+      const res = await fetch('/.netlify/functions/validate-key', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key })
+      });
+      const data = await res.json();
+      document.getElementById('result').innerText = 
+        `${data.message} (${data.valid ? '✅' : '❌'})`;
+    }
+  </script>
+</body>
+</html>
