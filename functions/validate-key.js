@@ -50,8 +50,8 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    // Путь к файлу с ключами (в корне проекта)
-    const keysPath = path.join(__dirname, '..', 'allowed_keys_hallowen.txt');
+    // 🔁 Путь изменён: файл теперь в той же папке, что и функция
+    const keysPath = path.join(__dirname, 'allowed_keys_hallowen.txt');
     const data = await fs.readFile(keysPath, 'utf8');
     const allowedKeys = data
       .split('\n')
