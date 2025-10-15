@@ -55,7 +55,7 @@ exports.handler = async (event, context) => {
 'XwIR18Ta6qP9FvBfbQ4KEYR1ZvyrNi',
 'eEjy6qjlclEWmMVXRxwLulkCRw99PD',
 'VZO46MqBu5klnxCIli0wzxRGeAKdvy',
-'MHYtdrSAII0pQpZkyYiXmUkT1vDqpx',
+'MHYtdrSAII0pQpZkyYiXmUkT1vDqpx'
     // добавьте свои ключи сюда — по одному в кавычках, через запятую
   ]);
 
